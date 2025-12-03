@@ -1,4 +1,28 @@
+# Node modules (auto downloaded)
 node_modules/
-.env
+
+# Build outputs
 dist/
+build/
+out/
 .next/
+.cache/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment secrets
+.env
+.env.local
+.env.*.local
+
+# Temp
+*.tmp
+*.swp
