@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }
 });
@@ -35,12 +35,12 @@ let robotState = {
 const connectedUsers = new Map();
 const activityLog = [];
 
-// Broadcast robot state to all clients
+// Broadcast robot state
 function broadcastRobotState() {
   io.emit('robotUpdate', robotState);
 }
 
-// Log activity and broadcast
+// Log activity
 function logActivity(userId, action, type = 'command') {
   const activity = {
     id: uuidv4(),
@@ -55,12 +55,14 @@ function logActivity(userId, action, type = 'command') {
   if (activityLog.length > 50) activityLog.pop();
   
   io.emit('teamActivity', activity);
-  console.log(`Activity: ${activity.user} - ${action}`);
+  console.log(`📝 Activity: ${activity.user} - ${action}`);
 }
 
-// Handle robot commands
+// Handle commands
 function handleCommand(command, userId) {
   const user = connectedUsers.get(userId);
+  
+  console.log(`🎮 Command from ${user?.name}: ${command}`);
   
   switch (command) {
     case 'MOVE_FORWARD':
@@ -86,19 +88,9 @@ function handleCommand(command, userId) {
     case 'STOP':
       logActivity(userId, 'stopped robot', 'system');
       break;
-      
-    default:
-      if (command.startsWith('MOVE_TO:')) {
-        const [_, coords] = command.split(':');
-        const [x, y] = coords.split(',').map(Number);
-        robotState.x = x;
-        robotState.y = y;
-        logActivity(userId, `moved robot to (${x}, ${y})`);
-      }
-      break;
   }
   
-  // Update sensors randomly for simulation
+  // Update sensors
   robotState.sensors = {
     front: Math.max(0, Math.min(100, robotState.sensors.front + (Math.random() - 0.5) * 10)),
     left: Math.max(0, Math.min(100, robotState.sensors.left + (Math.random() - 0.5) * 10)),
@@ -107,16 +99,16 @@ function handleCommand(command, userId) {
     temperature: 25 + Math.random() * 10
   };
   
-  // Simulate battery drain
+  // Battery drain
   robotState.battery = Math.max(0, robotState.battery - 0.1);
   
   broadcastRobotState();
 }
 
-// Socket.IO connection handling
+// Socket.IO
 io.on('connection', (socket) => {
   const userId = uuidv4();
-  const userName = `User-${userId.slice(0, 6)}`;
+  const userName = `User-${socket.id.slice(0, 6)}`;
   
   connectedUsers.set(userId, {
     id: userId,
@@ -125,7 +117,7 @@ io.on('connection', (socket) => {
     connectedAt: new Date()
   });
   
-  console.log(`User connected: ${userName} (${socket.id})`);
+  console.log(`👤 User connected: ${userName} (${socket.id})`);
   
   // Send initial state
   socket.emit('robotUpdate', robotState);
@@ -134,7 +126,7 @@ io.on('connection', (socket) => {
   // Notify others
   logActivity(userId, 'joined the simulator', 'system');
   
-  // Handle commands from client
+  // Handle commands
   socket.on('sendCommand', (data) => {
     handleCommand(data.command, userId);
   });
@@ -143,13 +135,14 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     connectedUsers.delete(userId);
     logActivity(userId, 'left the simulator', 'system');
-    console.log(`User disconnected: ${userName}`);
+    console.log(`👤 User disconnected: ${userName}`);
   });
 });
 
 // HTTP routes
 app.get('/api/status', (req, res) => {
   res.json({
+    status: 'online',
     robot: robotState,
     users: Array.from(connectedUsers.values()),
     activities: activityLog.length
@@ -164,4 +157,5 @@ const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`🚀 OpenMind Simulator Backend running on port ${PORT}`);
   console.log(`🤖 Robot initialized at position (${robotState.x}, ${robotState.y})`);
+  console.log(`🌐 WebSocket ready for connections`);
 });

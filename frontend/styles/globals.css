@@ -1,0 +1,418 @@
+/* -------------------------------------
+ GLOBAL RESET
+--------------------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: radial-gradient(circle at 20% 20%, #f3f0ff, #e7e5ff, #dcdcff);
+  overflow-x: hidden;
+  color: #111;
+}
+
+/* -------------------------------------
+ SCROLLBAR
+--------------------------------------*/
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #7a5cff;
+  border-radius: 10px;
+}
+
+/* -------------------------------------
+ HEADER (ALL PAGES)
+--------------------------------------*/
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 40px;
+  font-size: 22px;
+  font-weight: 800;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.nav a {
+  margin-left: 24px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #333;
+  transition: 0.2s;
+}
+
+.nav a:hover {
+  color: #6d4bff;
+}
+
+/* -------------------------------------
+ BUTTON: NEON + GLASS
+--------------------------------------*/
+.cta,
+.btn,
+.save-btn,
+.stop-btn,
+.ar-btn {
+  background: linear-gradient(135deg, #ffffff55, #ffffff22);
+  padding: 14px 28px;
+  border-radius: 16px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 20px rgba(110, 60, 255, 0.3);
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.cta:hover,
+.btn:hover,
+.save-btn:hover,
+.ar-btn:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* STOP BUTTON */
+.stop-btn {
+  background: #ff3b3b !important;
+  color: white !important;
+}
+
+/* -------------------------------------
+ LANDING PAGE GLOBAL
+--------------------------------------*/
+.landing {
+  position: relative;
+}
+
+/* Parallax planets */
+.bg-planets {
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background-image: url("/planets.png");
+  background-size: cover;
+  opacity: 0.22;
+  top: -50%;
+  left: -50%;
+  transform: translate(var(--px), var(--py));
+  transition: 0.03s linear;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Stars */
+.bg-stars {
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background-image: url("/stars.png");
+  background-size: cover;
+  opacity: 0.18;
+  pointer-events: none;
+  animation: starsFlow 60s linear infinite;
+  z-index: 0;
+}
+
+@keyframes starsFlow {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2000px); }
+}
+
+/* Hero section */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  padding: 90px 40px;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+.hero h1 {
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.hero p {
+  margin-top: 16px;
+  font-size: 22px;
+  opacity: 0.7;
+}
+
+.robot-box {
+  width: 45%;
+  height: 480px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+/* Float animation */
+.floating {
+  animation: float3d 4s ease-in-out infinite;
+}
+
+@keyframes float3d {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Fade in */
+.fade-in {
+  opacity: 0;
+  animation: fadeInAnim 1.2s ease forwards;
+}
+@keyframes fadeInAnim {
+  to { opacity: 1; transform: translateY(0px); }
+}
+
+/* -------------------------------------
+ SIMULATOR PAGE
+--------------------------------------*/
+.simulator {
+  padding: 40px;
+}
+
+.sim-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.sim-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.control-panel {
+  width: 26%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hud {
+  margin-top: 25px;
+  padding: 18px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(13px);
+  border-radius: 14px;
+  font-size: 18px;
+}
+
+/* 3D Box */
+.sim-3d {
+  width: 70%;
+  height: 520px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.5);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+/* -------------------------------------
+ BUILDER PAGE
+--------------------------------------*/
+.builder-page {
+  padding: 40px;
+}
+
+.controls {
+  padding: 18px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(15px);
+  border-radius: 14px;
+  width: 28%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.control-box label {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.control-box input {
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  border: none;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+/* 3D robot preview */
+.builder-3d {
+  width: 68%;
+  height: 520px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+/* -------------------------------------
+ ABOUT PAGE
+--------------------------------------*/
+.about-page {
+  padding: 40px;
+}
+
+.about-3d {
+  width: 60%;
+  height: 450px;
+  margin: 40px auto;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(15px);
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.timeline {
+  width: 70%;
+  margin: 40px auto;
+}
+
+.timeline-item {
+  margin: 20px 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.timeline-item .dot {
+  width: 18px;
+  height: 18px;
+  background: #6c43ff;
+  border-radius: 50%;
+}
+
+/* -------------------------------------
+ AI ASSISTANT PAGE
+--------------------------------------*/
+.ai-page {
+  padding: 40px;
+}
+
+.chat-window {
+  width: 50%;
+  height: 480px;
+  border-radius: 20px;
+  padding: 20px;
+  background: rgba(255,255,255,0.55);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  overflow-y: auto;
+}
+
+.bubble {
+  padding: 14px 18px;
+  border-radius: 14px;
+  margin: 10px 0;
+  max-width: 80%;
+  font-size: 18px;
+}
+
+.bubble.you {
+  background: #6b4bff;
+  color: white;
+  margin-left: auto;
+}
+
+.bubble.robot {
+  background: #f4f4f4;
+  color: #111;
+}
+
+.chat-input {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  font-size: 18px;
+}
+
+.ai-3d {
+  width: 40%;
+  height: 480px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.5);
+  overflow: hidden;
+}
+
+/* -------------------------------------
+ AR MODE
+--------------------------------------*/
+.ar-page {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.ar-title {
+  text-align: center;
+  color: white;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.ar-sub {
+  position: absolute;
+  top: 115px;
+  color: #ddd;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* -------------------------------------
+ RESPONSIVE
+--------------------------------------*/
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+  }
+  .robot-box {
+    width: 95%;
+    margin-top: 20px;
+  }
+  .sim-content {
+    flex-direction: column;
+  }
+  .control-panel,
+  .sim-3d {
+    width: 100%;
+  }
+  .chat-window,
+  .ai-3d {
+    width: 100%;
+  }
+}
